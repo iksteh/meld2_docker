@@ -1,5 +1,5 @@
 # clean base image containing only comfyui, comfy-cli and comfyui-manager
-FROM runpod/worker-comfyui:5.5.1-flux1-dev
+FROM docker pull runpod/worker-comfyui:5.7.1-flux1-schnell
 
 # install custom nodes into comfyui (first node with --mode remote to fetch updated cache)
 # The workflow lists only unknown_registry custom nodes and no aux_id (GitHub repo) was provided for any.
