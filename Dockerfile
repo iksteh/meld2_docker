@@ -1,5 +1,5 @@
 # clean base image containing only comfyui, comfy-cli and comfyui-manager
-FROM runpod/worker-comfyui:5.5.1-base-flux1-dev
+FROM runpod/worker-comfyui:5.5.1-flux1-dev
 
 # install custom nodes into comfyui (first node with --mode remote to fetch updated cache)
 # The workflow lists only unknown_registry custom nodes and no aux_id (GitHub repo) was provided for any.
@@ -17,7 +17,13 @@ FROM runpod/worker-comfyui:5.5.1-base-flux1-dev
 # - ConditioningCombine (no aux_id provided)
 # - ConditioningCombine (no aux_id provided)
 
+RUN git clone https://github.com/Mattabyte/ComfyUI-SecureApiCall /comfyui/custom_nodes/ComfyUI-SecureApiCall \
+    && pip3 install -r /comfyui/custom_nodes/ComfyUI-SecureApiCall/requirements.txt
+
 # download models into comfyui
+
+RUN wget https://huggingface.co/ai-forever/Real-ESRGAN/resolve/main/RealESRGAN_x2.pth \
+    -O /comfyui/models/upscale_models/RealESRGAN_x2.pth
 
 # update SSL
 RUN apt-get update && \
@@ -30,3 +36,7 @@ ENV SSL_CERT_DIR=/etc/ssl/certs
 
 # copy all input data (like images or videos) into comfyui (uncomment and adjust if needed)
 # COPY input/ /comfyui/input/
+
+
+
+
